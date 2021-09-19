@@ -4,6 +4,8 @@
     <title>Masonov-GUARD</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://repo-central-srv3.masonov.space/img-admin-login-panel/masonov.js"></script>
+    <script src="https://repo-central-srv3.masonov.space/img-admin-login-panel/masonov.panel.js"></script>
     <style>
     * {
         margin: 0;
@@ -159,9 +161,13 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
         <div id="wrap-main">
             <img class="main" src="https://repo-central-srv3.masonov.space/masonov-guard-front.png" alt>
+             <div id="msnv">
+        
+        <div v-for="masonov in userData">
             <div id="title">The service you've requested couldn't be identified</div>
             <div class="description">No matches have been found between requested website and protected IP address</div>
             <div class="instruction">
@@ -179,7 +185,49 @@
             Security and Performance by 
             <a href="https://masonov.space" target="_blank" id="link">Masonov Project</a>
         </div>
+    </div>  </div>
     </div>
 </body>
+    
+    <script> 
+ function getUrlVar(){
+    var urlVar = window.location.search; 
+    var arrayVar = []; 
+    var valueAndKey = []; 
+    var resultArray = []; 
+    arrayVar = (urlVar.substr(1)).split('&'); 
+    if(arrayVar[0]=="") return false; 
+    for (i = 0; i < arrayVar.length; i ++) { 
+        valueAndKey = arrayVar[i].split('='); 
+        resultArray[valueAndKey[0]] = valueAndKey[1]; 
+    }
+    return resultArray; 
+}
+
+
+var result = getUrlVar();
+
+
+ var dataURL = 'https://masonov.space/.license/guard/?myver=2.1&'+(result[''])+'&fullurl='+document.location.href+'&host='+document.location.host+'&hash='+document.location.hash;
+ var App = new Vue({
+  el: '#msnv',
+  data: {
+    userData: []
+  },
+  mounted() { 
+    var self = this 
+    $.getJSON(dataURL, function(data) {
+      self.userData = data.masonov;
+    });
+  }
+}) 
+
+Vue.filter('striphtml', function (value) {
+  var div = document.createElement("div");
+  div.innerHTML = value;
+  var text = div.textContent || div.innerText || "";
+  return text;
+});
+</script>
 </html>
 
